@@ -1,0 +1,54 @@
+{
+    "name": "UserActions",
+    "maps": [
+        {
+            "name": "Character",
+            "id": "1cbc1bb6-53c1-4308-841c-a673227993f3",
+            "actions": [
+                {
+                    "name": "PrimaryScreenPress",
+                    "type": "Button",
+                    "id": "9e6b4663-2cdc-41a3-aba0-bb4c0c51e790",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrimaryScreenPos",
+                    "type": "Value",
+                    "id": "556a7f23-7a1f-45fb-b151-2fa2fe805f1a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b055c5bb-e3c8-4064-8873-4366d82ee0e7",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryScreenPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d99cbb9b-c805-42f4-a3c5-17b91d82ecc1",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryScreenPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

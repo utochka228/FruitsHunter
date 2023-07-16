@@ -12,9 +12,6 @@ namespace Infrastructure
 
         [SerializeField] private Transform _poolContainer;
         
-        [SerializeField] private int _eachProductPoolSize = 5;
-        [SerializeField] private int _eachProductMaxPoolSize = 10;
-        
         [SerializeField] private Transform _startPoint;
         [SerializeField] private Transform _endPoint;
 
@@ -22,10 +19,6 @@ namespace Infrastructure
         [SerializeField] private float _itemsSpaceBetween = .2f;
 
         [SerializeField] private TextureMover _textureMover;
-
-        private ObjectPool<GameObject> _pineapplePool;
-        private ObjectPool<GameObject> _croissantPool;
-        private ObjectPool<GameObject> _burgerPool;
 
         private GameObject _pineappleContainer;
         private GameObject _croissantContainer;
@@ -38,12 +31,12 @@ namespace Infrastructure
         void Start()
         {
             _canGenerate = true;
-            InitPools();
-
             _textureMover.SetSpeed(_movingSpeed);
+            InitContainers();
         }
 
-        private void InitPools()
+
+        private void InitContainers()
         {
             _pineappleContainer = new GameObject("Pineapple container");
             _pineappleContainer.transform.SetParent(_poolContainer);
@@ -54,43 +47,24 @@ namespace Infrastructure
             _burgerContainer = new GameObject("Burger container");
             _burgerContainer.transform.SetParent(_poolContainer);
 
-            InitializePool(ref _pineapplePool, _pineapplePrefab, _pineappleContainer.transform);
-            InitializePool(ref _croissantPool, _croissaintPrefab, _croissantContainer.transform);
-            InitializePool(ref _burgerPool, _burgerPrefab, _burgerContainer.transform);
-        }
-
-        private void InitializePool(ref ObjectPool<GameObject> targetPool, GameObject prefab, Transform parent)
-        {
-            targetPool = new ObjectPool<GameObject>(() =>
-            {
-                return Instantiate(prefab, parent);
-            }, item =>
-            {
-                item.gameObject.SetActive(true);
-                item.transform.position = _startPoint.position;
-            }, item =>
-            {
-                item.gameObject.SetActive(false);
-            }, item =>
-            {
-                Destroy(item.gameObject);
-            }, false, _eachProductPoolSize, _eachProductMaxPoolSize);
         }
 
         private void SpawnPineapple()
         {
-            var pineapple = _pineapplePool.Get();
+            var pineapple = Instantiate(_pineapplePrefab, _pineappleContainer.transform);
+            pineapple.transform.position = _startPoint.position;
         }
         
         private void SpawnCroissant()
         {
-            var croissant = _croissantPool.Get();
-            
+            var croissant = Instantiate(_croissaintPrefab, _croissantContainer.transform);
+            croissant.transform.position = _startPoint.position;
         }
         
         private void SpawnBurger()
         {
-            var burger = _burgerPool.Get();
+            var burger = Instantiate(_burgerPrefab, _burgerContainer.transform);
+            burger.transform.position = _startPoint.position;
         }
 
         void Update()
@@ -142,12 +116,12 @@ namespace Infrastructure
 
         private void MoveOnConveyor()
         {
-            MoveItemsInPool(_pineappleContainer.transform, _pineapplePool);
-            MoveItemsInPool(_croissantContainer.transform, _croissantPool);
-            MoveItemsInPool(_burgerContainer.transform, _burgerPool);
+            MoveItems(_pineappleContainer.transform);
+            MoveItems(_croissantContainer.transform);
+            MoveItems(_burgerContainer.transform);
         }
 
-        private void MoveItemsInPool(Transform container, ObjectPool<GameObject> pool)
+        private void MoveItems(Transform container)
         {
             foreach (Transform item in container)
             {
@@ -160,7 +134,7 @@ namespace Infrastructure
                 bool reachedDestination = Vector3.Distance(item.position, _endPoint.position) <= 0.05f;
                 if(reachedDestination)
                 {
-                    pool.Release((item.gameObject));
+                    Destroy(item.gameObject);
                 }
             }
         }
