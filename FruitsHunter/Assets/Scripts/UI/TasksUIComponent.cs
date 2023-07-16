@@ -11,7 +11,7 @@ namespace Infrastructure.UI
         [SerializeField] private Transform _container;
         [SerializeField] private TaskGenerator _taskGenerator;
         
-        void Awake()
+        void Start()
         {
             _taskGenerator.OnTaskGenerated += OnTaskGenerated;
         }

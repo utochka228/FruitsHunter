@@ -15,7 +15,7 @@ namespace Infrastructure.LevelTasks
 
         public Action<LevelTask> OnTaskGenerated;
         
-        void Start()
+        void Awake()
         {
             GenerateLevelTask();
         }
@@ -44,6 +44,7 @@ namespace Infrastructure.LevelTasks
         {
             public Product TaskProduct;
             public int RequiredCount;
+            public int GatheredCount;
         }
     }
 }
