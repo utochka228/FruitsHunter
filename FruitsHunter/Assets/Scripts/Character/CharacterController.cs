@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using Infrastructure.Products;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -14,11 +15,24 @@ namespace Infrastructure.Character
         [SerializeField] private Transform _lookPoint;
         [SerializeField] private float _lookingSpeed = 2f;
         private Transform _target;
+        
+        [SerializeField] private float raiseHandDuration = 0.5f;
+        [SerializeField] private Ease handRaiseEase;
+        
+        [SerializeField] private float letdownHandDuration = 0.5f;
+        [SerializeField] private Ease handLetdownEase;
+
+        [SerializeField] private Transform _startPoint;
+        [SerializeField] private Transform _endPoint;
+        
+        [SerializeField] private float _pingPongSpeed = 0.5f;
+        
+        private Coroutine waitCoroutine;
+        private bool _idle;
 
         public void TryGrabProduct(ProductHolder productHolder)
         {
             TryGrabState();
-            Debug.Log("Try grab " + productHolder.AssignedProduct.Name);
             _target = productHolder.transform;
         }
 
@@ -26,11 +40,21 @@ namespace Infrastructure.Character
         {
             _characterHand.OnItemTaken += GatherToBasketState;
             _rightArmRig.weight = 0f;
+            _idle = true;
         }
 
         private void Update()
         {
             LerpLookPoint();
+            //SmoothLookPointMoving();
+        }
+
+        private void SmoothLookPointMoving()
+        {
+            if (_idle == false)
+                return;
+            
+            _lookPoint.position = Vector3.Lerp(_startPoint.position, _endPoint.position, Mathf.PingPong(Time.time * _pingPongSpeed, 1f));
         }
 
         private void LerpLookPoint()
@@ -40,16 +64,25 @@ namespace Infrastructure.Character
             
             _lookPoint.position = Vector3.Lerp(_lookPoint.position, _target.position, Time.deltaTime * _lookingSpeed);
         }
-
+        
         private void SetIdleState()
         {
-            StartCoroutine(LerpRigWeight(0f, 1f));
+            DOVirtual.Float(_rightArmRig.weight, 0f, letdownHandDuration, value => _rightArmRig.weight = value).SetEase(handLetdownEase);
+            _lookPoint.DOMove(_endPoint.position, 1f).OnComplete((() =>
+            {
+                _lookPoint.DOMove(_startPoint.position, _pingPongSpeed).SetLoops(-1, LoopType.Yoyo).SetId("yoyo");
+            }));
         }
 
         private void TryGrabState()
         {
-            StartCoroutine(LerpRigWeight(1f, 1f));
-            StartCoroutine(WaitAndSetIdle());
+            DOTween.Kill("yoyo");
+            
+            DOVirtual.Float(_rightArmRig.weight, 1f, raiseHandDuration, value => _rightArmRig.weight = value).SetEase(handRaiseEase);
+            
+            if(waitCoroutine != null)
+                StopCoroutine(waitCoroutine);
+            waitCoroutine = StartCoroutine(WaitAndSetIdle());
         }
 
         private IEnumerator WaitAndSetIdle()
@@ -62,19 +95,6 @@ namespace Infrastructure.Character
         {
             
             // SetIdleState after gathered!
-        }
-        
-        IEnumerator LerpRigWeight(float endValue, float duration)
-        {
-            float time = 0;
-            float startValue = _rightArmRig.weight;
-            while (time < duration)
-            {
-                _rightArmRig.weight = Mathf.Lerp(startValue, endValue, time / duration);
-                time += Time.deltaTime;
-                yield return null;
-            }
-            _rightArmRig.weight = endValue;
         }
     }
 }

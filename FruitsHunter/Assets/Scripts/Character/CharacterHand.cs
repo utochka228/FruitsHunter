@@ -34,8 +34,12 @@ namespace Infrastructure.Character
             if (success == false)
                 return;
 
+            if (_productInHand != null)
+                return;
+
             Debug.Log($"Product {product.AssignedProduct.Name} taken!");
             product.transform.SetParent(transform);
+            product.transform.localPosition = Vector3.zero;
 
             _productInHand = product;
 

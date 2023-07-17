@@ -8,21 +8,18 @@ namespace Infrastructure.Input
     {
         public static Action<Vector2> OnScreenPressed;
 
-        private Vector2 _screenPrimaryPos;
-
         private UserActions _userActions;
         private void Start()
         {
             _userActions = new UserActions();
             _userActions.Enable();
-            _userActions.Character.PrimaryScreenPos.performed +=
-                context => _screenPrimaryPos = context.ReadValue<Vector2>();
             _userActions.Character.PrimaryScreenPress.performed += OnScreenTapped;
         }
 
         private void OnScreenTapped(InputAction.CallbackContext context)
         {
-            OnScreenPressed?.Invoke(_screenPrimaryPos);
+            var screenPrimaryPos = _userActions.Character.PrimaryScreenPos.ReadValue<Vector2>();
+            OnScreenPressed?.Invoke(screenPrimaryPos);
         }
     }
 }

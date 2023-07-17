@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4000014199351478}
   - component: {fileID: 5012413268035790815}
   - component: {fileID: -4331820937259370557}
+  - component: {fileID: -9049416853671602351}
+  - component: {fileID: 792144685836112993}
   m_Layer: 3
   m_Name: Croissant
   m_TagString: Untagged
@@ -68,6 +70,48 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.05
   m_Center: {x: 0, y: 0.03, z: 0}
+--- !u!114 &-9049416853671602351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011100452964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e774659a894cd3649aa3bdf48593a290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popHeight: 0.05
+  popDuration: 0.4
+  popEase: 24
+--- !u!54 &792144685836112993
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011100452964}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &980572919055768131
 GameObject:
   m_ObjectHideFlags: 0

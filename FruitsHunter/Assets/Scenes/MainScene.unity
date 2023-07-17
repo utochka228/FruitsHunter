@@ -398,9 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22616dddef9dd8a4682c567af84880dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 8
   _characterController: {fileID: 2094002715}
 --- !u!114 &337991335 stripped
 MonoBehaviour:
@@ -1010,6 +1007,16 @@ PrefabInstance:
     - target: {fileID: 4749730850939948, guid: 1e8e1924bb442334c9125455634bb567, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331959355372817342, guid: 1e8e1924bb442334c9125455634bb567,
+        type: 3}
+      propertyPath: m_Data.m_TwistAxis
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331959355372817342, guid: 1e8e1924bb442334c9125455634bb567,
+        type: 3}
+      propertyPath: m_Data.m_TwistNodes.m_Item2.weight
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 1557587035126810974, guid: 1e8e1924bb442334c9125455634bb567,
         type: 3}
@@ -1867,8 +1874,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245478496a72b294889b0eb45b46a08d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToIdle: 1
+  _timeToIdle: 3
   _rightArmRig: {fileID: 337991335}
   _characterHand: {fileID: 793175030}
   _lookPoint: {fileID: 1564595702}
-  _lookingSpeed: 3
+  _lookingSpeed: 4
+  raiseHandDuration: 0.3
+  handRaiseEase: 2
+  letdownHandDuration: 1
+  handLetdownEase: 19
+  _startPoint: {fileID: 532257536}
+  _endPoint: {fileID: 118686817}
+  _pingPongSpeed: 1.5

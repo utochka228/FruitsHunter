@@ -15,7 +15,7 @@ namespace Infrastructure.LevelTasks
 
         public Action<LevelTask> OnTaskGenerated;
         
-        void Awake()
+        void Start()
         {
             GenerateLevelTask();
         }
